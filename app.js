@@ -7,15 +7,15 @@ async function boot() {
   initNetworkBanner();
   const auth = await import('./auth.js');
   const { route, dispatch, currentPath } = await import('./router.js');
-  const { renderLogin } = await import('./pages/login.js');
-  const { renderSearch } = await import('./pages/search.js');
-  const { renderAccount } = await import('./pages/account.js');
-  const { createSearchBox } = await import('./pages/searchbox.js');
-  const { renderSupport } = await import('./pages/support.js');
-  const { renderQueues } = await import('./pages/queues.js');
-  const { renderPlan } = await import('./pages/plan.js');
-  const { renderDashboard } = await import('./pages/dashboard.js');
-  const { renderSettings } = await import('./pages/settings.js');
+  const { renderLogin } = await import('./login.js');
+  const { renderSearch } = await import('./search.js');
+  const { renderAccount } = await import('./account.js');
+  const { createSearchBox } = await import('./searchbox.js');
+  const { renderSupport } = await import('./support.js');
+  const { renderQueues } = await import('./queues.js');
+  const { renderPlan } = await import('./plan.js');
+  const { renderDashboard } = await import('./dashboard.js');
+  const { renderSettings } = await import('./settings.js');
 
   const SALES = ['sales'];
   route('/search', { roles: SALES, render: renderSearch });

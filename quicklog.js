@@ -1,10 +1,10 @@
-import { el, openDialog, toast } from '../ui.js';
-import { api } from '../api.js';
-import { options } from '../lookups.js';
-import { ACTIVITY_TYPES } from '../i18n.js';
-import { field, selectEl, dateField, timeField, wireForm } from '../fields.js';
-import { todayTehran, tehranToIso } from '../jalali.js';
-import { parseTag } from '../tags.js';
+import { el, openDialog, toast } from './ui.js';
+import { api } from './api.js';
+import { options } from './lookups.js';
+import { ACTIVITY_TYPES } from './i18n.js';
+import { field, selectEl, dateField, timeField, wireForm } from './fields.js';
+import { todayTehran, tehranToIso } from './jalali.js';
+import { parseTag } from './tags.js';
 
 const isOpen = (o) => o.stage !== 'Won' && o.stage !== 'Lost';
 

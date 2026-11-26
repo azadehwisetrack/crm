@@ -1,8 +1,8 @@
-import { el, openDialog, toast } from '../ui.js';
-import { api } from '../api.js';
-import { options } from '../lookups.js';
-import { normMobile, isMobile } from '../normalize.js';
-import { field, selectEl, wireForm } from '../fields.js';
+import { el, openDialog, toast } from './ui.js';
+import { api } from './api.js';
+import { options } from './lookups.js';
+import { normMobile, isMobile } from './normalize.js';
+import { field, selectEl, wireForm } from './fields.js';
 
 const MOBILE_ERR = 'شمارهٔ موبایل معتبر نیست (مثال: 09123456789).';
 

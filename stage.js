@@ -1,8 +1,8 @@
-import { el, openDialog, toast } from '../ui.js';
-import { api } from '../api.js';
-import { options } from '../lookups.js';
-import { STAGES } from '../i18n.js';
-import { field, selectEl, wireForm } from '../fields.js';
+import { el, openDialog, toast } from './ui.js';
+import { api } from './api.js';
+import { options } from './lookups.js';
+import { STAGES } from './i18n.js';
+import { field, selectEl, wireForm } from './fields.js';
 
 export function openStageDialog({ opp, onSaved }) {
   const closed = opp.stage === 'Won' || opp.stage === 'Lost';

@@ -1,5 +1,5 @@
-import { el, clear, friendlyError, withBusy } from '../ui.js';
-import { t } from '../i18n.js';
+import { el, clear, friendlyError, withBusy } from './ui.js';
+import { t } from './i18n.js';
 
 export function renderLogin(root, { onLogin }) {
   clear(root);

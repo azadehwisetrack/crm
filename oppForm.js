@@ -1,6 +1,6 @@
-import { el, openDialog, toast, friendlyError } from '../ui.js';
-import { api } from '../api.js';
-import { field, selectEl, wireForm } from '../fields.js';
+import { el, openDialog, toast, friendlyError } from './ui.js';
+import { api } from './api.js';
+import { field, selectEl, wireForm } from './fields.js';
 
 // New opportunity for another product on an existing account (one open opportunity per product).
 export async function openOppForm({ account, opps, onSaved }) {

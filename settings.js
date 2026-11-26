@@ -1,9 +1,9 @@
-import { el, clear, toast, friendlyError } from '../ui.js';
-import { api } from '../api.js';
-import { resetLookups } from '../lookups.js';
-import { field, selectEl } from '../fields.js';
-import { buildBackup, downloadBlob, markBackupDone, lastBackup } from '../export.js';
-import { formatDateTime } from '../jalali.js';
+import { el, clear, toast, friendlyError } from './ui.js';
+import { api } from './api.js';
+import { resetLookups } from './lookups.js';
+import { field, selectEl } from './fields.js';
+import { buildBackup, downloadBlob, markBackupDone, lastBackup } from './export.js';
+import { formatDateTime } from './jalali.js';
 
 const KINDS = [['activity_result', 'نتیجهٔ اقدام'], ['pending_reason', 'دلیل Pending'], ['lost_reason', 'دلیل Lost'], ['contact_role', 'نقش کانتکت'], ['support_result', 'نتیجهٔ پشتیبانی']];
 const th = (...h) => el('thead', {}, el('tr', {}, h.map((x) => el('th', {}, x))));

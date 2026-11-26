@@ -1,6 +1,6 @@
-import { el, openDialog, toast } from '../ui.js';
-import { api } from '../api.js';
-import { field, selectEl, wireForm } from '../fields.js';
+import { el, openDialog, toast } from './ui.js';
+import { api } from './api.js';
+import { field, selectEl, wireForm } from './fields.js';
 
 const clean = (s) => { const v = String(s ?? '').replace(/\s+/g, ' ').trim(); return v || null; };
 
