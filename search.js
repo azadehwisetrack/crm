@@ -1,6 +1,6 @@
 import { el } from './ui.js';
 import { createSearchBox } from './searchbox.js';
-import { openAccountForm } from './dialogs/accountForm.js';
+import { openAccountForm } from './accountForm.js';
 
 export async function renderSearch(view) {
   const box = createSearchBox();
