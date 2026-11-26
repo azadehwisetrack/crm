@@ -1,6 +1,6 @@
-import { el, clear } from '../ui.js';
-import { api } from '../api.js';
-import { normFa } from '../normalize.js';
+import { el, clear } from './ui.js';
+import { api } from './api.js';
+import { normFa } from './normalize.js';
 
 // Global search box: debounce 250 ms, calls rpc_search, arrow keys + Enter open an account.
 export function createSearchBox({ onPick } = {}) {

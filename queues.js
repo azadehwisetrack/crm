@@ -1,8 +1,8 @@
-import { el, clear, toastError } from '../ui.js';
-import { api, QUEUE_PAGE_SIZE } from '../api.js';
-import { loadLookups, label } from '../lookups.js';
-import { formatDate, todayTehran } from '../jalali.js';
-import { openQuickLog } from '../dialogs/quicklog.js';
+import { el, clear, toastError } from './ui.js';
+import { api, QUEUE_PAGE_SIZE } from './api.js';
+import { loadLookups, label } from './lookups.js';
+import { formatDate, todayTehran } from './jalali.js';
+import { openQuickLog } from './quicklog.js';
 
 export const QUEUES = [
   { key: 'q1', view: 'v_q1', label: 'تماس امروز و عقب‌افتاده' },

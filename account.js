@@ -1,13 +1,13 @@
-import { el, clear, toast, toastError, isDialogOpen, copyText } from '../ui.js';
-import { api } from '../api.js';
-import { loadLookups, label } from '../lookups.js';
-import { formatDate, formatDateTime, todayTehran } from '../jalali.js';
-import { buildSummary } from '../summary.js';
-import { openQuickLog } from '../dialogs/quicklog.js';
-import { openStageDialog } from '../dialogs/stage.js';
-import { openAccountForm } from '../dialogs/accountForm.js';
-import { openContactForm } from '../dialogs/contactForm.js';
-import { openOppForm } from '../dialogs/oppForm.js';
+import { el, clear, toast, toastError, isDialogOpen, copyText } from './ui.js';
+import { api } from './api.js';
+import { loadLookups, label } from './lookups.js';
+import { formatDate, formatDateTime, todayTehran } from './jalali.js';
+import { buildSummary } from './summary.js';
+import { openQuickLog } from './quicklog.js';
+import { openStageDialog } from './stage.js';
+import { openAccountForm } from './accountForm.js';
+import { openContactForm } from './contactForm.js';
+import { openOppForm } from './oppForm.js';
 
 const td = (content, cls) => el('td', { class: cls }, content);
 const th = (...h) => el('thead', {}, el('tr', {}, h.map((x) => el('th', {}, x))));

@@ -1,8 +1,8 @@
-import { el, clear, toast, toastError, copyText } from '../ui.js';
-import { api } from '../api.js';
-import { dateField } from '../fields.js';
-import { todayTehran, planDefaultDay, addDays, weekdayName, formatDate } from '../jalali.js';
-import { buildPlanText } from '../plantext.js';
+import { el, clear, toast, toastError, copyText } from './ui.js';
+import { api } from './api.js';
+import { dateField } from './fields.js';
+import { todayTehran, planDefaultDay, addDays, weekdayName, formatDate } from './jalali.js';
+import { buildPlanText } from './plantext.js';
 
 const td = (c, cls) => el('td', { class: cls }, c);
 const th = (...h) => el('thead', {}, el('tr', {}, h.map((x) => el('th', {}, x))));

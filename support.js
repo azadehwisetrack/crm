@@ -1,8 +1,8 @@
-import { el, clear, toast, toastError, openDialog } from '../ui.js';
-import { api } from '../api.js';
-import { loadLookups, label, options } from '../lookups.js';
-import { field, selectEl, dateField, wireForm } from '../fields.js';
-import { formatDate } from '../jalali.js';
+import { el, clear, toast, toastError, openDialog } from './ui.js';
+import { api } from './api.js';
+import { loadLookups, label, options } from './lookups.js';
+import { field, selectEl, dateField, wireForm } from './fields.js';
+import { formatDate } from './jalali.js';
 
 const LATE_AFTER_DAYS = 2; // days since Won shown in red after this many days
 

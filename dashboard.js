@@ -1,8 +1,8 @@
-import { el, toastError } from '../ui.js';
-import { api } from '../api.js';
-import { label, loadLookups } from '../lookups.js';
-import { STAGES } from '../i18n.js';
-import { todayTehran, tehranToIso, formatTime } from '../jalali.js';
+import { el, toastError } from './ui.js';
+import { api } from './api.js';
+import { label, loadLookups } from './lookups.js';
+import { STAGES } from './i18n.js';
+import { todayTehran, tehranToIso, formatTime } from './jalali.js';
 
 const SOURCE = { manual: 'دستی', tag: 'تگ', suggestion: 'پیشنهاد', migration: 'مهاجرت' };
 const stat = (value, text, cls) => el('div', { class: 'stat' }, el('div', { class: 'stat-value ' + (cls || '') }, String(value ?? 0)), el('div', { class: 'muted' }, text));
