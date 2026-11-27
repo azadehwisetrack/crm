@@ -8,7 +8,7 @@ export function route(pattern, { roles, render }) {
   routes.push({ pattern, re, names, roles, render });
 }
 
-export const defaultPath = (role) => (role === 'support' ? '/support' : '/search');
+export const defaultPath = () => '/dashboard';
 
 export function currentPath() {
   const raw = (location.hash || '').replace(/^#/, '');

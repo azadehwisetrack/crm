@@ -112,3 +112,11 @@ tr.clickable:hover { background: var(--bg); }
 /* ---- Phase 7 */
 td input[type="text"] { min-width: 140px; }
 td input[type="checkbox"] { width: auto; }
+
+/* ---- v2 */
+.filter-bar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: .75rem; }
+.filter-bar input, .filter-bar select { max-width: 320px; }
+.status-select { width: auto; min-width: 130px; padding: .25rem .5rem; }
+td select { width: auto; }
+a.chip { text-decoration: none; color: inherit; border: 1px solid var(--border); padding: .35rem .9rem; border-radius: 999px; }
+a.chip[aria-pressed="true"] { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }

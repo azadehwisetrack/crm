@@ -9,7 +9,7 @@ export function el(tag, attrs = {}, ...kids) {
     else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2), v);
     else e.setAttribute(k, v === true ? '' : v);
   }
-  for (const kid of kids.flat()) {
+  for (const kid of kids.flat(Infinity)) {
     if (kid == null || kid === false) continue;
     e.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
   }
@@ -86,4 +86,15 @@ export async function copyText(text) {
   try { ok = document.execCommand('copy'); } catch { ok = false; }
   ta.remove();
   return ok;
+}
+
+// Pagination bar: "قبلی / صفحه n از m / بعدی". Returns null when everything fits on one page.
+export function pager(total, page, size, go) {
+  const pages = Math.max(1, Math.ceil(total / size));
+  if (pages <= 1) return null;
+  const prev = el('button', { type: 'button', disabled: page === 0 }, 'قبلی');
+  const next = el('button', { type: 'button', disabled: page >= pages - 1 }, 'بعدی');
+  prev.addEventListener('click', () => go(page - 1));
+  next.addEventListener('click', () => go(page + 1));
+  return el('div', { class: 'actions top-gap' }, prev, el('span', { class: 'muted' }, `صفحه ${page + 1} از ${pages} (${total} مورد)`), next);
 }

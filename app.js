@@ -1,88 +1,63 @@
 import { el, clear, initNetworkBanner } from './ui.js';
 import { t, NAV } from './i18n.js';
+import * as auth from './auth.js';
+import { route, dispatch, currentPath } from './router.js';
+import { renderLogin } from './page-login.js';
+import { renderDashboard } from './page-dashboard.js';
+import { renderAccounts } from './page-accounts.js';
+import { renderAccount } from './page-account.js';
+import { renderPersons } from './page-persons.js';
+import { renderTasks } from './page-tasks.js';
+import { renderSettings } from './page-settings.js';
 
 const root = document.getElementById('app');
+const SALES = ['sales'];
+
+route('/dashboard', { roles: SALES, render: renderDashboard });
+route('/accounts', { roles: SALES, render: renderAccounts });
+route('/account/:id', { roles: SALES, render: renderAccount });
+route('/persons', { roles: SALES, render: renderPersons });
+route('/tasks', { roles: SALES, render: renderTasks });
+route('/settings', { roles: SALES, render: renderSettings });
+route('/settings/:tab', { roles: SALES, render: renderSettings });
+
+let view = null;
+let nav = null;
+
+function markNav() {
+  if (!nav) return;
+  const p = currentPath();
+  nav.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href').slice(1);
+    const on = p === href || p.startsWith(href + '/') || (href === '/accounts' && p.startsWith('/account/'));
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+}
+
+function renderShell() {
+  const profile = auth.state.profile;
+  const full = profile.role === 'sales'; // other roles have no access to the data yet (database rules enforce this too)
+  nav = full ? el('nav', { class: 'nav', 'aria-label': 'منوی اصلی' }, NAV.map(([path, label]) => el('a', { href: '#' + path }, label))) : el('nav', { class: 'nav' });
+  const logoutBtn = el('button', { type: 'button' }, t.logout);
+  logoutBtn.addEventListener('click', () => auth.logout());
+  view = el('main', { id: 'view' });
+  clear(root);
+  root.append(el('header', { class: 'header' }, el('span', { class: 'brand' }, t.appName), nav, el('span', { class: 'user' }, profile.display_name, logoutBtn)), view);
+  if (full) show(); else view.append(el('div', { class: 'card' }, t.noAccess));
+}
+
+async function show() {
+  if (!auth.state.profile || !view || auth.state.profile.role !== 'sales') return;
+  await dispatch(view, 'sales');
+  markNav();
+}
+
+function render() {
+  if (!auth.state.profile) { view = null; nav = null; renderLogin(root, { onLogin: auth.login }); } else renderShell();
+}
 
 async function boot() {
   initNetworkBanner();
-  const auth = await import('./auth.js');
-  const { route, dispatch, currentPath } = await import('./router.js');
-  const { renderLogin } = await import('./login.js');
-  const { renderSearch } = await import('./search.js');
-  const { renderAccount } = await import('./account.js');
-  const { createSearchBox } = await import('./searchbox.js');
-  const { renderSupport } = await import('./support.js');
-  const { renderQueues } = await import('./queues.js');
-  const { renderPlan } = await import('./plan.js');
-  const { renderDashboard } = await import('./dashboard.js');
-  const { renderSettings } = await import('./settings.js');
-
-  const SALES = ['sales'];
-  route('/search', { roles: SALES, render: renderSearch });
-  route('/account/:id', { roles: SALES, render: renderAccount });
-  route('/queues', { roles: SALES, render: renderQueues });
-  route('/queues/:q', { roles: SALES, render: renderQueues });
-  route('/plan', { roles: SALES, render: renderPlan });
-  route('/dashboard', { roles: SALES, render: renderDashboard });
-  route('/settings', { roles: SALES, render: renderSettings });
-  route('/support', { roles: ['support', 'sales'], render: renderSupport });
-
-  let view = null;
-  let nav = null;
-  let headerSearch = null;
-
-  function markNav() {
-    if (!nav) return;
-    const p = currentPath();
-    nav.querySelectorAll('a').forEach((a) => {
-      const href = a.getAttribute('href').slice(1);
-      const on = p === href || p.startsWith(href + '/') || (href === '/search' && p.startsWith('/account/'));
-      if (on) a.setAttribute('aria-current', 'page');
-      else a.removeAttribute('aria-current');
-    });
-  }
-
-  function renderShell() {
-    const role = auth.state.profile.role;
-    nav = el('nav', { class: 'nav', 'aria-label': 'منوی اصلی' },
-      NAV[role].map(([path, label]) => el('a', { href: '#' + path }, label)));
-    const logoutBtn = el('button', { type: 'button' }, t.logout);
-    logoutBtn.addEventListener('click', () => auth.logout());
-    headerSearch = role === 'sales' ? createSearchBox() : null;
-    view = el('main', { id: 'view' });
-    clear(root);
-    root.append(
-      el('header', { class: 'header' }, el('span', { class: 'brand' }, t.appName), nav,
-        headerSearch ? headerSearch.root : null,
-        el('span', { class: 'user' }, auth.state.profile.display_name, logoutBtn)),
-      view);
-    show();
-  }
-
-  async function show() {
-    if (!auth.state.profile || !view) return;
-    await dispatch(view, auth.state.profile.role);
-    markNav();
-  }
-
-  function render() {
-    if (!auth.state.profile) {
-      view = null; nav = null; headerSearch = null;
-      renderLogin(root, { onLogin: auth.login });
-    } else {
-      renderShell();
-    }
-  }
-
-  // "/" focuses the global search (unless the user is typing somewhere).
-  document.addEventListener('keydown', (e) => {
-    if ((e.key !== '/' && e.code !== 'Slash') || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey || !headerSearch) return;
-    const tag = (e.target.tagName || '').toLowerCase();
-    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
-    e.preventDefault();
-    headerSearch.focus();
-  });
-
   auth.onChange(render);
   window.addEventListener('hashchange', show);
   await auth.init();

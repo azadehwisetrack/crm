@@ -6,16 +6,16 @@ import { todayTehran } from './jalali.js';
 export const BACKUP_KEY = 'crm_last_backup_at';
 
 export const TABLES = [
-  { name: 'accounts', order: ['id'], columns: ['id', 'code', 'name', 'city', 'district', 'address', 'landline', 'software', 'gln', 'status', 'created_at', 'updated_at'] },
-  { name: 'contacts', order: ['id'], columns: ['id', 'code', 'name', 'mobile', 'mobile2', 'note', 'status', 'created_at', 'updated_at'] },
+  { name: 'accounts', order: ['id'], columns: ['id', 'code', 'name', 'landline', 'city', 'district', 'address', 'field_id', 'status', 'created_at', 'updated_at'] },
+  { name: 'contacts', order: ['id'], columns: ['id', 'code', 'first_name', 'last_name', 'mobile', 'mobile2', 'job_title', 'note', 'status', 'created_at', 'updated_at'] },
   { name: 'account_contacts', order: ['account_id', 'contact_id'], columns: ['account_id', 'contact_id', 'role', 'is_primary', 'status'] },
-  { name: 'opportunities', order: ['id'], columns: ['id', 'code', 'account_id', 'product_id', 'stage', 'stage_reason', 'handoff_note', 'note', 'opened_at', 'closed_at', 'updated_at'] },
-  { name: 'activities', order: ['id'], columns: ['id', 'account_id', 'opportunity_id', 'contact_id', 'occurred_at', 'type', 'result', 'note', 'next_step_date', 'next_step_text', 'flags', 'created_by', 'created_at'] },
-  { name: 'stage_history', order: ['id'], columns: ['id', 'opportunity_id', 'changed_at', 'from_stage', 'to_stage', 'reason', 'note', 'source', 'changed_by'] },
-  { name: 'support_results', order: ['id'], columns: ['id', 'opportunity_id', 'occurred_at', 'result', 'note', 'follow_up_date', 'created_by', 'created_at'] },
+  { name: 'opportunities', order: ['id'], columns: ['id', 'account_id', 'product_id', 'stage', 'opened_at', 'closed_at', 'updated_at'] },
+  { name: 'tasks', order: ['id'], columns: ['id', 'account_id', 'person_id', 'description', 'due_date', 'due_time', 'type_id', 'user_id', 'status_id', 'created_at', 'created_by', 'updated_at'] },
   { name: 'products', order: ['id'], columns: ['id', 'code', 'name', 'active'] },
-  { name: 'lookups', order: ['kind', 'key'], columns: ['kind', 'key', 'label', 'sort', 'active'] },
-  { name: 'settings', order: ['key'], columns: ['key', 'value'] },
+  { name: 'task_users', order: ['id'], columns: ['id', 'name'] },
+  { name: 'task_types', order: ['id'], columns: ['id', 'name', 'sort', 'kind'] },
+  { name: 'task_statuses', order: ['id'], columns: ['id', 'name', 'sort', 'kind'] },
+  { name: 'activity_fields', order: ['id'], columns: ['id', 'name'] },
 ];
 
 async function fetchAll(t) {
@@ -27,7 +27,7 @@ async function fetchAll(t) {
   }
 }
 
-// Returns { blob, filename, counts }. One CSV per table inside one ZIP (avoids the browser's "multiple downloads" prompt).
+// One CSV per table inside one ZIP (avoids the browser's "multiple downloads" prompt).
 export async function buildBackup(onProgress = () => {}) {
   const enc = new TextEncoder();
   const files = [], counts = {};
@@ -37,10 +37,6 @@ export async function buildBackup(onProgress = () => {}) {
     counts[t.name] = rows.length;
     files.push({ name: `${t.name}.csv`, data: enc.encode(toCsv(rows, t.columns)) });
   }
-  onProgress('دریافت profiles…');
-  const profiles = (await api.listProfiles()).map(({ user_id, display_name, role, active }) => ({ user_id, display_name, role, active }));
-  counts.profiles = profiles.length;
-  files.push({ name: 'profiles.csv', data: enc.encode(toCsv(profiles, ['user_id', 'display_name', 'role', 'active'])) });
   return { blob: makeZip(files), filename: `crm-backup-${todayTehran()}.zip`, counts };
 }
 

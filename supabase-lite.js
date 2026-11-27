@@ -101,6 +101,7 @@ class Query {
     if (onConflict) this.params.set('on_conflict', onConflict);
     return this;
   }
+  delete() { this.method = 'DELETE'; return this; }
   eq(col, val) { this.params.append(col, `eq.${val}`); return this; }
   gte(col, val) { this.params.append(col, `gte.${val}`); return this; }
   or(filters) { this.params.append('or', `(${filters})`); return this; }
